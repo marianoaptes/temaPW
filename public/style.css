@@ -1,0 +1,17 @@
+h2{
+    color:teal;
+}
+body {
+    background-image: url("imagini/image.png");
+    /* background-size: 40%; */
+    background-repeat: no-repeat;
+    background-position-x: center;
+}
+img {
+    opacity: 1;
+}
+form{
+    border-style: groove;
+    border-color: aquamarine;
+    width: fit-content;
+}

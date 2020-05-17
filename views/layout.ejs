@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <link rel="stylesheet" href="/style.css">
+    </head>
+    <body>
+        <h2>Clinica stomatologică StomatoMed</h2>
+        <% if (utilizator!=undefined) { %>
+            <p>Logat ca <%= utilizator %>. <a method="GET" href="/logare" >Delogare</a></p>
+            <% } %>
+        <%- body %> 
+    </body>
+</html>

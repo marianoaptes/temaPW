@@ -1,0 +1,29 @@
+{
+  "name": "temapw",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u0000t\u0000e\u0000m\u0000a\u0000P\u0000W\u0000\r\u0000 \u0000",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marianoaptes/temaPW.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marianoaptes/temaPW/issues"
+  },
+  "homepage": "https://github.com/marianoaptes/temaPW#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "ejs": "^3.1.2",
+    "express": "^4.17.1",
+    "express-ejs-layouts": "^2.5.0",
+    "express-session": "^1.17.1",
+    "jade": "^1.11.0",
+    "mongodb": "^3.5.7"
+  }
+}

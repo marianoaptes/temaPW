@@ -1,0 +1,13 @@
+
+<% if (utilizator!=undefined) { %>
+    <% if (utilizator!='admin') { %>
+<p>Bine ai revenit <%= utilizator %>!</p>
+<p><a method="GET" href="/programare-noua" >Programare noua</a></p>
+<p><a method="GET" href="/programari" >Programarile mele</a></p>
+    <% } else { %>
+        <p><a method="GET" href="/cereri" >Cereri de programari</a></p>
+    <% } %>
+<% } else { %>
+<a href="/logare" action="/logare" method="GET">Autentificare</a>
+<% } %>
+<footer>©2020</footer>

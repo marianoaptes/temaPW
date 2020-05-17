@@ -1,0 +1,11 @@
+
+<% if (mesaj!=undefined) { %>
+    <p style="color: tomato;"> <%= mesaj %>!</p>
+<% } %>
+<form id="logare" action="/verificare-logare" method="POST">
+    <label for="username">Username:</label><br>
+    <input type="text" id="username" name="user"><br>
+    <label for="password">Password:</label><br>
+    <input type="text" id="password" name="pass"><br>
+    <input type="submit" value="Submit"  />
+</form>

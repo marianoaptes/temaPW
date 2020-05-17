@@ -1,0 +1,22 @@
+{"utilizatori": [
+    {
+        "username": "admin",
+        "parola": "admin"
+    },
+    {
+        "username": "maria.noaptes",
+        "parola":"mnoaptes",
+        "varsta":"",
+        "ocupatie":"student",
+        "doctor":"Lela Anton",
+        "programari": [{"data":"16.02.2020", "stare": "efectuata"}]
+    },
+    {
+        "username": "alin34",
+        "parola":"alin34",
+        "varsta":"",
+        "ocupatie":"student",
+        "doctor":"Dan Sfetcu",
+        "programari": [{"data":"16.02.2020", "stare": "efectuata"}]
+    }
+]}
