@@ -29,24 +29,43 @@ app.get('/programare-noua', (req, res) => {
 	res.render('programare-noua',{utilizator: req.session.utilizator});
 });
 app.post('/programari', (req, res) => {
-    MongoClient.connect(url, function(err, client) {
+    add_prog(req,res);
+});
+app.post('/verificare-logare', (req, res) => {	
+    retrive_progs(req,res);
+    })
+async function add_prog(req, res)
+{
+    var user=req.session.utilizator
+    var programari_client=[]
+    await MongoClient.connect(url, async function(err, client) {
         var db = client.db('db');
-        var programari_client=db.collection('programari').findOne({username: req.session.utilizator})
-        console.log('acestea is: '+programari_client)
-        programari_client.push({"data":req.body.data, "stare":"in asteptare"})
-        db.collection('programari').updateOne({
+        await db.collection('programari').find({username: user}).toArray(async function(err,docs)
+        {
+            if(docs[0]!=undefined){
+            programari_client=docs[0]['programari'];
+            programari_client=programari_client.concat({"data":req.body.data, "stare":"in asteptare"})
+            }
+        }); 
+        client.close();
+    });
+    await MongoClient.connect(url, async function(err, client) {
+        var db = client.db('db');
+        await db.collection('programari').updateOne({
             username: req.session.utilizator
         }, {
             $set: {
-                programari: programari_client.programari
+            programari: programari_client
             }
-        });
-        client.close();
+        }); 
+        req.session.programari=programari_client
+        user=req.session.utilizator
+        console.log(programari_client)
+        res.render('programari', {programari: programari_client, utilizator: user});
+        client.close(); 
     });
-    req.session.programari=programari_client
-    res.render('programari', {programari: req.session.programari, utilizator: req.session.utilizator});
-    console.log(req.session.programari)
-});
+        
+}
 async function retrive_progs(req,res)
 {   
     await MongoClient.connect(url,async function(err, client) {
@@ -69,8 +88,5 @@ async function retrive_progs(req,res)
                 client.close();  
     });     
     })};
-app.post('/verificare-logare', (req, res) => {	
-    var ok=0;
-    retrive_progs(req,res);
-    })
+
 app.listen(port, () => console.log(`Serverul rulează la adresa http://localhost:`));
