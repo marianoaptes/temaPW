@@ -6,15 +6,15 @@
     {
         "username": "maria.noaptes",
         "parola":"mnoaptes",
-        "varsta":"",
+        "varsta":"21",
         "ocupatie":"student",
         "doctor":"Lela Anton",
-        "programari": [{"data":"16.02.2020", "stare": "efectuata"}]
+        "programari": [{"data":"16.02.2020", "stare": "in asteptare"}]
     },
     {
         "username": "alin34",
         "parola":"alin34",
-        "varsta":"",
+        "varsta":"30",
         "ocupatie":"student",
         "doctor":"Dan Sfetcu",
         "programari": [{"data":"16.02.2020", "stare": "efectuata"}]
