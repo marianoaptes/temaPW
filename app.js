@@ -26,7 +26,6 @@ app.use(cookieParser())
 app.use(session({ resave: false ,secret: '123456' , saveUninitialized: true, cookie: { secure: !true}}));
 app.get('/', (req, res) =>  res.render('index', {utilizator: req.session.utilizator}));
 app.get('/programari', (req, res) => {
-    console.log('acestea sunt'+req.session.programari)
     res.render('programari', {programari: req.session.programari, utilizator: req.session.utilizator});
 });
 app.get('/logare', (req, res) => {	
@@ -35,6 +34,13 @@ app.get('/logare', (req, res) => {
 app.get('/programare-noua', (req, res) => {	
 	res.render('programare-noua',{utilizator: req.session.utilizator});
 });
+app.post('/schimba-programare', (req, res) => {
+    console.log("aici")
+    modify_prog(req,res);
+});
+/*app.post('/confirma-programare', (req, res) => {
+    modify_prog(req,res,"confirm");
+});*/
 app.post('/programari', (req, res) => {
     add_prog(req,res);
 });
@@ -44,9 +50,94 @@ app.post('/verificare-logare', (req, res) => {
 app.get('/admin', (req,res)=>{
     retrive_users(req,res);
 });
+async function modify_prog(req, res)
+{
+    var user=req.body.username
+    var de_schimbat=req.body.programare
+    var action=req.body.schimba
+    console.log(action)
+    var programari_client=[]
+    await MongoClient.connect(url, async function(err, client) {
+        var db = client.db('db');
+        await db.collection('programari').find({username: user}).toArray(async function(err,docs)
+        {
+            if(docs[0]!=undefined){
+            programari_client=docs[0]['programari'];
+            for(var i=0;i<Object.keys(programari_client).length;i++)
+            {
+                if(de_schimbat==programari_client[i].data){
+                    if(action=="confirm") programari_client[i].stare="confirmata";
+                    if(action=="delete") 
+                    {
+                        console.log("inainte");
+                        console.log(programari_client);
+                        if(Object.keys(programari_client).length==1)
+                            programari_client=[];
+                        else
+                            programari_client=programari_client.splice(i, 1)
+                        console.log("dupa");
+                        console.log(programari_client);
+                    }
+                }
+            }
+            }
+        }); 
+        client.close();
+    });
+    await MongoClient.connect(url, async function(err, client) {
+        var db = client.db('db');
+        await db.collection('programari').updateOne({
+            username: user
+        }, {
+            $set: {
+            programari: programari_client
+            }
+        }); 
+        req.session.programari=programari_client
+        user='admin'
+        client.close(); 
+    });   
+}
+async function confirm_prog(req, res)
+{
+    var user=req.body.username
+    var de_inlocuit=req.body.programare
+    console.log(de_inlocuit)
+    var programari_client=[]
+    await MongoClient.connect(url, async function(err, client) {
+        var db = client.db('db');
+        await db.collection('programari').find({username: user}).toArray(async function(err,docs)
+        {
+            if(docs[0]!=undefined){
+            programari_client=docs[0]['programari'];
+            for(var i=0;i<Object.keys(programari_client).length;i++)
+            {
+                if(de_inlocuit==programari_client[i].data)
+                    programari_client[i].stare="confirmata";
+            }
+            }
+        }); 
+        client.close();
+    });
+    await MongoClient.connect(url, async function(err, client) {
+        var db = client.db('db');
+        await db.collection('programari').updateOne({
+            username: user
+        }, {
+            $set: {
+            programari: programari_client
+            }
+        }); 
+        req.session.programari=programari_client
+        user='admin'
+        console.log(programari_client)
+        client.close(); 
+    });   
+}
 async function add_prog(req, res)
 {
     var user=req.session.utilizator
+    var pass=req.session.parola
     var programari_client=[]
     await MongoClient.connect(url, async function(err, client) {
         var db = client.db('db');
@@ -85,8 +176,15 @@ async function retrive_progs(req,res)
             {
                 res.redirect('http://localhost:6789/admin');
             }else{
-            await db.collection('programari').find({username:req.body.user}).toArray(function(err,docs){
+                var ok=0;
+            await db.collection('users').find({username:req.body.user, password:req.body.pass}).toArray(function(err,docs)
+            {
                 if(docs[0]!=undefined){
+                    ok=1;
+                }
+            });
+            await db.collection('programari').find({username:req.body.user}).toArray(function(err,docs){
+                if(docs[0]!=undefined&&ok){
                     req.session.programari=docs[0]['programari'];
                     res.redirect('http://localhost:6789/');   
                 }else
@@ -114,16 +212,5 @@ async function retrive_progs(req,res)
                     client.close();  
         });     
         })};
-        
-       /* $(document).ready(function() {
-            $('#confirm').click(function(event) {
-                var id  =event.target.id ;
-            });
-        });*/
-        $(document).ready("#confirm").click(function(e) {
-              e.preventDefault();
-              console.log("ase")
-            });
-   
        
 app.listen(port, () => console.log(`Serverul rulează la adresa http://localhost:`));
