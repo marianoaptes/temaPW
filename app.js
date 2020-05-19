@@ -6,7 +6,14 @@ var cookieParser=require("cookie-parser");
 var MongoClient = require('mongodb').MongoClient;
 var url = 'mongodb://localhost';
 const fs = require('fs');
+var jsdom = require("jsdom");
+const { JSDOM } = jsdom;
+const { window } = new JSDOM();
+const { document } = (new JSDOM('')).window;
+global.document = document;
 
+var $ = jQuery = require('jquery')(window);
+//var $ = require("jquery");
 const app = express();
 
 const port = 6789;
@@ -33,7 +40,10 @@ app.post('/programari', (req, res) => {
 });
 app.post('/verificare-logare', (req, res) => {	
     retrive_progs(req,res);
-    })
+    });
+app.get('/admin', (req,res)=>{
+    retrive_users(req,res);
+});
 async function add_prog(req, res)
 {
     var user=req.session.utilizator
@@ -63,8 +73,7 @@ async function add_prog(req, res)
         console.log(programari_client)
         res.render('programari', {programari: programari_client, utilizator: user});
         client.close(); 
-    });
-        
+    });   
 }
 async function retrive_progs(req,res)
 {   
@@ -72,6 +81,10 @@ async function retrive_progs(req,res)
             var db = client.db('db');
             res.cookie('mesaj','',{expires: new Date(1999,1,1)})
             req.session.utilizator=req.body.user;
+            if(req.session.utilizator=="admin")
+            {
+                res.redirect('http://localhost:6789/admin');
+            }else{
             await db.collection('programari').find({username:req.body.user}).toArray(function(err,docs){
                 if(docs[0]!=undefined){
                     req.session.programari=docs[0]['programari'];
@@ -86,7 +99,31 @@ async function retrive_progs(req,res)
                     res.redirect('http://localhost:6789/logare')
                 }
                 client.close();  
-    });     
+            });}     
     })};
-
+    async function retrive_users(req,res)
+    {   
+        await MongoClient.connect(url,async function(err, client) {
+                var db = client.db('db');
+                res.cookie('mesaj','',{expires: new Date(1999,1,1)})
+                await db.collection('programari').find().toArray(function(err,docs){
+                    if(docs!=undefined){
+                        req.session.users=docs
+                    }
+                    res.render('admin',{utilizator:'admin',utilizatori:req.session.users});   
+                    client.close();  
+        });     
+        })};
+        
+       /* $(document).ready(function() {
+            $('#confirm').click(function(event) {
+                var id  =event.target.id ;
+            });
+        });*/
+        $(document).ready("#confirm").click(function(e) {
+              e.preventDefault();
+              console.log("ase")
+            });
+   
+       
 app.listen(port, () => console.log(`Serverul rulează la adresa http://localhost:`));
