@@ -24,9 +24,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser()) 
 app.use(session({ resave: false ,secret: '123456' , saveUninitialized: true, cookie: { secure: !true}}));
-app.get('/', (req, res) =>  res.render('index', {utilizator: req.session.utilizator}));
+app.get('/', (req, res) =>  {
+    res.render('index',{utilizator: req.session.utilizator});
+});
 app.get('/programari', (req, res) => {
     res.render('programari', {programari: req.session.programari, utilizator: req.session.utilizator});
+});
+app.get('/contact', (req, res) =>  {
+    res.render('contact',{utilizator: req.session.utilizator});
+});
+app.get('/video', (req, res) =>  {
+    res.render('video',{utilizator: req.session.utilizator});
 });
 app.get('/logare', (req, res) => {	
 	res.render('logare',{mesaj: req.cookies.mesaj, utilizator: req.session.utilizator});
@@ -38,18 +46,21 @@ app.post('/schimba-programare', (req, res) => {
     console.log("aici")
     modify_prog(req,res);
 });
-/*app.post('/confirma-programare', (req, res) => {
-    modify_prog(req,res,"confirm");
-});*/
 app.post('/programari', (req, res) => {
     add_prog(req,res);
 });
 app.post('/verificare-logare', (req, res) => {	
     retrive_progs(req,res);
     });
-app.get('/admin', (req,res)=>{
+app.get('/admin', (req,res) => {
     retrive_users(req,res);
 });
+app.get('/servicii', (req,res) =>{
+    fs.readFile('servicii.json', (err, data) => {
+        if (err) throw err;
+        const listaServicii = JSON.parse(data);
+        res.render('servicii',{servicii: listaServicii.servicii, utilizator: req.session.utilizator});
+})});  
 async function modify_prog(req, res)
 {
     var user=req.body.username
@@ -69,18 +80,13 @@ async function modify_prog(req, res)
                     if(action=="confirm") programari_client[i].stare="confirmata";
                     if(action=="delete") 
                     {
-                        console.log("inainte");
-                        console.log(programari_client);
                         if(Object.keys(programari_client).length==1)
                             programari_client=[];
                         else
                             programari_client=programari_client.splice(i, 1)
-                        console.log("dupa");
-                        console.log(programari_client);
                     }
                 }
-            }
-            }
+            }}
         }); 
         client.close();
     });
@@ -98,7 +104,7 @@ async function modify_prog(req, res)
         client.close(); 
     });   
 }
-async function confirm_prog(req, res)
+/*async function confirm_prog(req, res)
 {
     var user=req.body.username
     var de_inlocuit=req.body.programare
@@ -133,7 +139,7 @@ async function confirm_prog(req, res)
         console.log(programari_client)
         client.close(); 
     });   
-}
+}*/
 async function add_prog(req, res)
 {
     var user=req.session.utilizator
@@ -186,7 +192,7 @@ async function retrive_progs(req,res)
             await db.collection('programari').find({username:req.body.user}).toArray(function(err,docs){
                 if(docs[0]!=undefined&&ok){
                     req.session.programari=docs[0]['programari'];
-                    res.redirect('http://localhost:6789/');   
+                    res.redirect('http://localhost:6789/') 
                 }else
                 {
                     req.session.destroy((err) => {

@@ -1,3 +1,20 @@
+<main style="padding:40px;">
+    <aside class="doctors" style="float: right;"> 
+        <img src="imagini/image.png" style="width: 300px; border-radius: 5px;"><img>
+        <img src="imagini/stomatologie.jpg" class="stomImg"><img>
+    </aside>
+<table class='servicii programari'>
+    Programarile dumneavoastra sunt: 
+<tr><th>Data</th><th>Stare</th></tr>
 <% for(var programare of programari){ %>
-<p><%=programare.data %> - <%=programare.stare %></p>
+<tr><td><%=programare.data %></td><td><%=programare.stare %></td></tr>
 <% } %>
+</table>
+</main>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+<script type='text/javascript'>
+$(document).ready(function() {
+  $('li a').removeClass('active');
+  $('.programari').addClass('active');
+});
+</script>

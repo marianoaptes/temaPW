@@ -1,0 +1,54 @@
+{"servicii": [
+    {
+        "manopera": "Detartraj cu ultrasunete 1 arcadă",
+        "pret": 100
+    },
+    {
+        "manopera": "Detartraj cu ultrasunete 2 arcade",
+        "pret": 150
+    },
+    {
+        "manopera": "Detartraj / dinte",
+        "pret": 30
+    },
+    {
+        "manopera": "Airflow",
+        "pret": 100
+    },
+    {
+        "manopera": "Periaj profesional",
+        "pret": 80
+    },
+    {
+        "manopera": "Gutieră bruxism/arcadă",
+        "pret": 250
+    },
+    {
+        "manopera": "Obturație (plombă) dinți laterali",
+        "pret": 250
+    },
+    {
+        "manopera": "Fațetare directă compozit",
+        "pret": 300
+    },
+    {
+        "manopera": "Coafaj direct / indirect",
+        "pret": 50
+    },
+    {
+        "manopera": "Obturație coronară CIS",
+        "pret": 100
+    },
+    {
+        "manopera": "Obturație provizorie",
+        "pret": 50
+    },
+    {
+        "manopera": "îndepartare obturație veche",
+        "pret": 50
+    },
+    {
+        "manopera": "Sigilare/dinte",
+        "pret": 80
+    }
+]}

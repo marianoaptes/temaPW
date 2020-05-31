@@ -1,13 +1,25 @@
-
+<main style="padding: 20px;">
 <% if (utilizator!=undefined) { %>
     <% if (utilizator!='admin') { %>
-<p>Bine ai revenit <%= utilizator %>!</p>
-<p><a method="GET" href="/programare-noua" >Programare noua</a></p>
-<p><a method="GET" href="/programari" >Programarile mele</a></p>
-    <% } else { %>
+        <aside class="doctors" style="float: right;"> 
+            <img src="imagini/image.png" style="width: 300px; border-radius: 5px;"><img>
+            <img src="imagini/stomatologie.jpg" class="stomImg"><img>
+        </aside>
+        <div style="width:400px">
+        Clinica stomatologica StomatoMed reuneste o echipa medicala formata din specialisti cu vasta experienta, care iti ofera solutii moderne si complexe de tratament, ce te ajuta sa iti recapeti sanatatea dentara si zambetul dorit, pentru ca tu sa iti traiesti viata din plin.
+        In cadrul StomatoMed, fiecare ramura a medicinei dentare are un cabinet stomatologic dedicat, unde echipa noastra de medici profesionisti te asteapta pentru a te trata cu grija, transparenta si onestitate.
+        </div>
+        <% } else { %>
         <p><a method="GET" href="/cereri" >Cereri de programari</a></p>
     <% } %>
 <% } else { %>
 <a href="/logare" action="/logare" method="GET">Autentificare</a>
 <% } %>
-<footer>©2020</footer>
+</main>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+<script type='text/javascript'>
+$(document).ready(function() {
+  $('li a').removeClass('active');
+  $('.acasa').addClass('active');
+});
+</script>

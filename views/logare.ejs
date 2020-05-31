@@ -1,4 +1,4 @@
-
+<main style="padding:40px;">
 <% if (mesaj!=undefined) { %>
     <p style="color: tomato;"> <%= mesaj %>!</p>
 <% } %>
@@ -9,3 +9,11 @@
     <input type="text" id="password" name="pass"><br>
     <input type="submit" value="Submit"  />
 </form>
+</main>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+<script type='text/javascript'>
+$(document).ready(function() {
+  $('li a').removeClass('active');
+  $('.acasa').addClass('active');
+});
+</script>

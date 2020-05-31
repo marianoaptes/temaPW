@@ -1,15 +1,39 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8">
-        <title></title>
+        <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>StomatoMed</title>
         <link rel="stylesheet" href="/style.css">
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" 
+        rel="stylesheet">
     </head>
     <body>
-        <h2>Clinica stomatologică StomatoMed</h2>
+        <header>
+            <!--<a href="#" class="logo">Logo</a>-->
+            <div class="menu-toggle">
+            <nav>
+                <ul>
+                    <li><a class="acasa" method="GET" href="/">Acasă</a></li>
+                    <% if(utilizator!=undefined&&utilizator!='admin') {%>
+                        <li><a class="servicii" method="GET" href="/servicii" >Servicii</a></li>
+                        <li><a class="programari" method="GET" href="/programari" >Programarile mele</a></li>
+                        <li><a class="noua" method="GET" href="/programare-noua" >Programare noua</a></li>
+                    <% } %>
+                    <% if (utilizator=='admin'){ %>
+                        <li><a class="admin" method="GET" href="/admin" >Cereri de programare</a></li>
+                    <%}%>
+                    <li><a class="video" method="GET" href="/video">Video</a></li>
+                    <li><a class="contact" method="GET" href="/contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+            <div class="clearfix"></div>
+        </header>
+        <h2><img id="logo" src="imagini/logo.jpg" alt="logo" style="width:32px;height:32px;">StomatoMed</h2>
         <% if (utilizator!=undefined) { %>
-            <p>Logat ca <%= utilizator %>. <a method="GET" href="/logare" >Delogare</a></p>
+            <p id="log">Logat ca <%= utilizator %>. <a method="GET" href="/logare" >Delogare</a></p>
             <% } %>
-        <%- body %> 
+        <%- body %>
+        <footer>Programare Web ©2020</footer>
     </body>
 </html>

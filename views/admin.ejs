@@ -1,9 +1,10 @@
+<main style="padding:40px;">
 <% var class_name=""; %>
 <% var i=0; %>
 <% var j=0; %>
 <%for(utilizator of utilizatori){ %>
-  <div id=<%=i%>>
-    <p id=<%="user"+i%>><%=utilizator.username%></p>
+  <div style="border-color: lightcoral;" id=<%=i%>>
+    <p id=<%="user"+i%> class="user"><%=utilizator.username%></p>
     <% if(utilizator.username!='admin') %>
     <% if(utilizator.programari!=null){ %>
     <% j=0; %>
@@ -11,16 +12,20 @@
     <% class_name=i.toString()+"-"+j.toString(); %> 
     <p id=<%="paragraph"+class_name%>><label id=<%="prog"+class_name%>><%=programare.data%> - <%=programare.stare%> </label> 
        <button id="confirm" class=<%=class_name %>  >Confirmă</button> 
-       <button id="delete" class=<%=class_name %>  >Sterge</button></p>
+       <button id="delete" class=<%=class_name %>  >Sterge</button>
+      </p>
     <% j++; %>
     <% } %>
     <% } %>
     <% i++; %>
   </div>
 <% } %>
+</main>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 <script type='text/javascript'>
 $(document).ready(function() {
+  $('li a').removeClass('active');
+  $('.admin').addClass('active');
   $("button").click(function(e) {
               e.preventDefault();
               var ij=$(e.target).attr('class').split("-");
@@ -32,7 +37,7 @@ $(document).ready(function() {
                   programare: $("#prog"+ij[0]+'-'+ij[1]).html().split(' - ')[0],
                   schimba: e.target.id
                   });
-                  
+
               if(e.target.id=='confirm')
               {
                 $("#prog"+ij[0]+'-'+ij[1]).html($("#prog"+ij[0]+'-'+ij[1]).html().split(' - ')[0]+" - confirmata");
@@ -41,23 +46,6 @@ $(document).ready(function() {
               {
                 $("#paragraph"+ij[0]+'-'+ij[1]).html("");
               }
-              /*$.post(url="/schimba-programare",{
-                  username: $("#user"+i).html(),
-                  programare: $("#prog"+ij[0]+'-'+ij[1]).html().split(' - ')[0],
-                  schimba: e.target.id
-                  })*/
-            });/*
-  $("#delete").click(function(e) {
-              e.preventDefault();
-              var ij=$(e.target).attr('class').split("-");
-              var i=parseInt(ij[0]);
-              var j=parseInt(ij[1]);
-              $("#paragraph"+ij[0]+'-'+ij[1]).html("")
-              $.post(url="/schimba-programare",{
-                  username: $("#user"+i).html(),
-                  programare: $("#prog"+ij[0]+'-'+ij[1]).html().split(' - ')[0],
-                  schimba: "delete"
-                  })
-            });*/
+            });
           });
  </script>
