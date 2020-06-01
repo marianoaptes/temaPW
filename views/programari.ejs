@@ -1,13 +1,13 @@
 <main style="padding:40px;">
     <aside class="doctors" style="float: right;"> 
         <img src="imagini/image.png" style="width: 300px; border-radius: 5px;"><img>
-        <img src="imagini/stomatologie.jpg" class="stomImg"><img>
+        <img src="imagini/stomatologie.jpg" style="width: 400px;" class="stomImg"><img>
     </aside>
 <table class='servicii programari'>
     Programarile dumneavoastra sunt: 
-<tr><th>Data</th><th>Stare</th></tr>
+<tr><th>Data</th><th>Stare</th><th>Comentariu</th></tr>
 <% for(var programare of programari){ %>
-<tr><td><%=programare.data %></td><td><%=programare.stare %></td></tr>
+<tr><td><%=programare.data %></td><td><%=programare.stare %></td><td><%=programare.comentariu %></td></tr>
 <% } %>
 </table>
 </main>

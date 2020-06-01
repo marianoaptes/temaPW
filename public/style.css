@@ -15,7 +15,7 @@ header
     border-radius: 4px;
     box-shadow: 0 2px 5px rgba(0,0,0,.2);
 }
-.logo
+/* .logo
 {
     color: #069370;
     height: 50px;
@@ -28,7 +28,7 @@ header
     float:left;
     font-weight: 700;
     text-decoration:none;
-}
+} */
 nav{
     float: right;
 }
@@ -86,7 +86,7 @@ form{
     width: 500px;
     float: right;
     border-radius: 10px;
-    opacity: 0.2;
+    opacity: 0.4;
 }
 #log{
     border-style: groove;
@@ -136,6 +136,7 @@ img{
     font-weight: lighter;
     padding:16px;
     vertical-align: center;
+    text-decoration: none;
 }
 .autentificare:hover {
     font-size: 21px;  
@@ -144,6 +145,7 @@ img{
 footer{
     padding:20px;
     padding-top: 20px;
+    font-size:12px;
 }
 .info-contact, .suna, .email
 {

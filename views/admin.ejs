@@ -10,7 +10,8 @@
     <% j=0; %>
     <% for(var programare of utilizator.programari){ %>
     <% class_name=i.toString()+"-"+j.toString(); %> 
-    <p id=<%="paragraph"+class_name%>><label id=<%="prog"+class_name%>><%=programare.data%> - <%=programare.stare%> </label> 
+    <p id=<%="paragraph"+class_name%>><label id=<%="prog"+class_name%>><%=programare.data%>: <%=programare.stare%> </label>
+      <p>Comentariu: <%=programare.comentariu %></p> 
        <button id="confirm" class=<%=class_name %>  >Confirmă</button> 
        <button id="delete" class=<%=class_name %>  >Sterge</button>
       </p>
