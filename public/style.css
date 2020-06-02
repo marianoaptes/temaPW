@@ -3,6 +3,7 @@ body{
     margin:0;
     padding:0;
     font-family: 'Poppins', sans-serif;
+    background-color: white;
 }
 header 
 { 
@@ -88,7 +89,7 @@ form{
     border-radius: 10px;
     opacity: 0.4;
 }
-#log{
+#log, #prog {
     border-style: groove;
     border-color: peru;
     width: fit-content;
@@ -130,7 +131,7 @@ table.servicii th {
 img{
     padding-top: 20px;
 }
-.autentificare{
+.autentificare, .inscriere{
     font-size: 20px;
     color: firebrick ;
     font-weight: lighter;
@@ -138,7 +139,7 @@ img{
     vertical-align: center;
     text-decoration: none;
 }
-.autentificare:hover {
+.autentificare:hover, .inscriere:hover {
     font-size: 21px;  
     color: rgb(63, 14, 7)
   }
@@ -151,3 +152,14 @@ footer{
 {
     text-align:center;
 }
+#panel, #flip {
+    padding: 5px;
+    text-align: center;
+    background-color: #e5eecc;
+    border: solid 1px #c3c3c3;
+  }
+  
+  #panel {
+    padding: 50px;
+    display: none;
+  }

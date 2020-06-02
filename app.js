@@ -39,6 +39,9 @@ app.get('/video', (req, res) =>  {
 app.get('/logare', (req, res) => {	
 	res.render('logare',{mesaj: req.cookies.mesaj, utilizator: req.session.utilizator});
 });
+app.get('/inscriere', (req, res) => {	
+	res.render('inscriere',{mesaj: req.cookies.mesaj, utilizator: req.session.utilizator});
+});
 app.get('/programare-noua', (req, res) => {	
 	res.render('programare-noua',{utilizator: req.session.utilizator});
 });
@@ -48,6 +51,9 @@ app.post('/schimba-programare', (req, res) => {
 });
 app.post('/programari', (req, res) => {
     add_prog(req,res);
+});
+app.post('/inscriere-efectiva',(req,res) => {
+    inscriere(req,res);
 });
 app.post('/verificare-logare', (req, res) => {	
     retrive_progs(req,res);
@@ -61,6 +67,33 @@ app.get('/servicii', (req,res) =>{
         const listaServicii = JSON.parse(data);
         res.render('servicii',{servicii: listaServicii.servicii, utilizator: req.session.utilizator});
 })});  
+async function inscriere(req, res)
+{
+    var user=req.body.user
+    var pass=req.body.pass
+    var pass_repeat=req.body.pass_repeat
+    var varsta=req.body.age
+    var ocupatie=req.body.ocupatie
+    if(pass==pass_repeat&&pass.length>3){
+    await MongoClient.connect(url,async function(err, client)
+    {
+        var db = client.db('db');
+        await db.collection('users').insertOne({username:user, password:pass, varsta: varsta, ocupatie:ocupatie});
+        await db.collection('programari').insertOne({username:user, programari:[]});
+        res.cookie('mesaj','',{expires: new Date(1999,1,1)})
+        res.redirect('http://localhost:6789/')
+    });
+}
+else
+{
+    req.session.destroy((err) => {
+        if(err) {
+            return console.log(err);
+        }});
+    res.cookie('mesaj','Parola nu a fost confirmata corect sau nu este destul de lunga', {expires: new Date(360000 + Date.now())})
+    res.redirect('http://localhost:6789/inscriere')
+}
+}
 async function modify_prog(req, res)
 {
     var user=req.body.username

@@ -1,0 +1,25 @@
+<main style="padding:20px;">
+    <% if (mesaj!=undefined) { %>
+        <p style="color: tomato;"> <%= mesaj %>!</p>
+    <% } %>
+    <form id="inscriere" action="/inscriere-efectiva" method="POST">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="user"><br>
+        <label for="username">Varsta:</label><br>
+        <input type="number" id="age" name="age"><br>
+        <label for="username">Ocupatie:</label><br>
+        <input type="text" id="ocupatie" name="ocupatie"><br>
+        <label for="password">Parola:</label><br>
+        <input type="password" id="password" name="pass"><br>
+        <label for="password">Repeta parola:</label><br>
+        <input type="password" id="password_repeat" name="pass_repeat"><br>
+        <input type="submit" value="Inscrie-te"  />
+    </form>
+    </main>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+    <script type='text/javascript'>
+    $(document).ready(function() {
+      $('li a').removeClass('active');
+      $('.acasa').addClass('active');
+    });
+    </script>

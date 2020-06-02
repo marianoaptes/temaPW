@@ -24,7 +24,7 @@ var url = 'mongodb://localhost';
 
 MongoClient.connect(url, function(err, client) {
   var db = client.db('db');
-    var cursor = db.collection('programari').find();
+    var cursor = db.collection('users').find();
 
     cursor.each(function(err, doc) {
 

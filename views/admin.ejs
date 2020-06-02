@@ -4,15 +4,18 @@
 <% var j=0; %>
 <%for(utilizator of utilizatori){ %>
   <div style="border-color: lightcoral;" id=<%=i%>>
-    <p id=<%="user"+i%> class="user"><%=utilizator.username%></p>
+    <p id=<%="user"+i%> class="user"><%=utilizator.username%>
+      <div id="flip">Info</div>
+      <div id="panel">Varsta: <%=utilizator.varsta%>, Ocupatie: <%=utilizator.ocupatie%>, </div>
+    </p>
     <% if(utilizator.username!='admin') %>
     <% if(utilizator.programari!=null){ %>
     <% j=0; %>
     <% for(var programare of utilizator.programari){ %>
     <% class_name=i.toString()+"-"+j.toString(); %> 
-    <p id=<%="paragraph"+class_name%>><label id=<%="prog"+class_name%>><%=programare.data%>: <%=programare.stare%> </label>
-      <p>Comentariu: <%=programare.comentariu %></p> 
-       <button id="confirm" class=<%=class_name %>  >Confirmă</button> 
+    <p id="prog" id=<%="paragraph"+class_name%>><label id=<%="prog"+class_name%>><%=programare.data%>: <%=programare.stare%> </label> 
+      <br />Comentariu: <%=programare.comentariu %> 
+      <button id="confirm" class=<%=class_name %>  >Confirmă</button> 
        <button id="delete" class=<%=class_name %>  >Sterge</button>
       </p>
     <% j++; %>
@@ -25,6 +28,9 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 <script type='text/javascript'>
 $(document).ready(function() {
+  $("#flip").click(function(){
+    $("#panel").slideDown("slow");
+  });
   $('li a').removeClass('active');
   $('.admin').addClass('active');
   $("button").click(function(e) {
