@@ -40,7 +40,7 @@ app.get('/logare', (req, res) => {
 	res.render('logare',{mesaj: req.cookies.mesaj, utilizator: req.session.utilizator});
 });
 app.get('/inscriere', (req, res) => {	
-	res.render('inscriere',{mesaj: req.cookies.mesaj, utilizator: req.session.utilizator});
+	res.render('inscriere',{mesaj_signin: req.cookies.mesaj_signin, utilizator: req.session.utilizator});
 });
 app.get('/programare-noua', (req, res) => {	
 	res.render('programare-noua',{utilizator: req.session.utilizator});
@@ -56,10 +56,10 @@ app.post('/inscriere-efectiva',(req,res) => {
     inscriere(req,res);
 });
 app.post('/verificare-logare', (req, res) => {	
-    retrive_progs(req,res);
+    retrieve_progs(req,res);
     });
 app.get('/admin', (req,res) => {
-    retrive_users(req,res);
+    retrieve_users(req,res);
 });
 app.get('/servicii', (req,res) =>{
     fs.readFile('servicii.json', (err, data) => {
@@ -80,7 +80,7 @@ async function inscriere(req, res)
         var db = client.db('db');
         await db.collection('users').insertOne({username:user, password:pass, varsta: varsta, ocupatie:ocupatie});
         await db.collection('programari').insertOne({username:user, programari:[]});
-        res.cookie('mesaj','',{expires: new Date(1999,1,1)})
+        res.cookie('mesaj_signin','',{expires: new Date(1999,1,1)})
         res.redirect('http://localhost:6789/')
     });
 }
@@ -90,7 +90,7 @@ else
         if(err) {
             return console.log(err);
         }});
-    res.cookie('mesaj','Parola nu a fost confirmata corect sau nu este destul de lunga', {expires: new Date(360000 + Date.now())})
+    res.cookie('mesaj_signin','Parola nu a fost confirmata corect sau nu este destul de lunga', {expires: new Date(360000 + Date.now())})
     res.redirect('http://localhost:6789/inscriere')
 }
 }
@@ -168,13 +168,14 @@ async function add_prog(req, res)
         client.close(); 
     });   
 }
-async function retrive_progs(req,res)
+async function retrieve_progs(req,res)
 {   
     await MongoClient.connect(url,async function(err, client) {
             var db = client.db('db');
             res.cookie('mesaj','',{expires: new Date(1999,1,1)})
             req.session.utilizator=req.body.user;
-            if(req.session.utilizator=="admin")
+            req.session.password=req.body.pass;
+            if(req.session.utilizator=="admin"&&req.session.password=="admin")
             {
                 res.redirect('http://localhost:6789/admin');
             }else{
@@ -201,17 +202,23 @@ async function retrive_progs(req,res)
                 client.close();  
             });}     
     })};
-    async function retrive_users(req,res)
+    async function retrieve_users(req,res)
     {   
         await MongoClient.connect(url,async function(err, client) {
                 var db = client.db('db');
                 res.cookie('mesaj','',{expires: new Date(1999,1,1)})
-                await db.collection('programari').find().toArray(function(err,docs){
+                await db.collection('programari').find().toArray(async function(err,docs){
                     if(docs!=undefined){
                         req.session.users=docs
                     }
-                    res.render('admin',{utilizator:'admin',utilizatori:req.session.users});   
+                    await db.collection('users').find().toArray(function(err,docs){
+                        if(docs!=undefined){
+                            req.session.users_data=docs
+                        }
+                    console.log(req.session.users_data);
+                    res.render('admin',{utilizator:'admin',utilizatori:req.session.users, utilizatori_date: req.session.users_data });   
                     client.close();  
+                    });
         });     
         })};
        
