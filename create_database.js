@@ -19,12 +19,13 @@ MongoClient.connect(url, async function(err, client) {
   });
   client.close();
 });*/
-/*var MongoClient = require('mongodb').MongoClient;
+/*
+var MongoClient = require('mongodb').MongoClient;
 var url = 'mongodb://localhost';
 
 MongoClient.connect(url, function(err, client) {
   var db = client.db('db');
-    var cursor = db.collection('users').find();
+    var cursor = db.collection('programari').find();
 
     cursor.each(function(err, doc) {
 
@@ -32,12 +33,16 @@ MongoClient.connect(url, function(err, client) {
 
     });
 }); */
+
 var MongoClient = require('mongodb').MongoClient;
 var url = 'mongodb://localhost';
 MongoClient.connect(url,function(err, client) {
   var db = client.db('db');
   db.collection('programari').deleteOne({
-      username: 'vkudyuyrtfhgjb'
+      username: 'alexandra'
   });
+  db.collection('users').deleteOne({
+    username: 'alexandra'
+});
   client.close();
 });

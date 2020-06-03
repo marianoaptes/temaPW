@@ -2,6 +2,9 @@
     <% if (mesaj_signin!=undefined) { %>
         <p style="color: tomato;"> <%= mesaj_signin %>!</p>
     <% } %>
+    <aside class="doctors" style="float: right;"> 
+        <img src="imagini/stomatologie.png" style="width: 500px"><img>
+    </aside>
     <form id="inscriere" action="/inscriere-efectiva" method="POST">
         <label for="username">Username:</label><br>
         <input type="text" id="username" name="user"><br>

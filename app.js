@@ -46,7 +46,6 @@ app.get('/programare-noua', (req, res) => {
 	res.render('programare-noua',{utilizator: req.session.utilizator});
 });
 app.post('/schimba-programare', (req, res) => {
-    console.log("aici")
     modify_prog(req,res);
 });
 app.post('/programari', (req, res) => {
@@ -74,13 +73,14 @@ async function inscriere(req, res)
     var pass_repeat=req.body.pass_repeat
     var varsta=req.body.age
     var ocupatie=req.body.ocupatie
-    if(pass==pass_repeat&&pass.length>3){
+    if(pass==pass_repeat && pass.length>3){
     await MongoClient.connect(url,async function(err, client)
     {
         var db = client.db('db');
         await db.collection('users').insertOne({username:user, password:pass, varsta: varsta, ocupatie:ocupatie});
         await db.collection('programari').insertOne({username:user, programari:[]});
         res.cookie('mesaj_signin','',{expires: new Date(1999,1,1)})
+        res.cookie('mesaj','',{expires: new Date(1999,1,1)})
         res.redirect('http://localhost:6789/')
     });
 }
@@ -99,7 +99,6 @@ async function modify_prog(req, res)
     var user=req.body.username
     var de_schimbat=req.body.programare
     var action=req.body.schimba
-    console.log(action)
     var programari_client=[]
     await MongoClient.connect(url, async function(err, client) {
         var db = client.db('db');
@@ -116,15 +115,13 @@ async function modify_prog(req, res)
                         if(Object.keys(programari_client).length==1)
                             programari_client=[];
                         else
-                            programari_client=programari_client.splice(i, 1)
+                            programari_client.splice(i, 1);
                     }
                 }
             }}
-        }); 
-        client.close();
-    });
-    await MongoClient.connect(url, async function(err, client) {
-        var db = client.db('db');
+        });
+        await MongoClient.connect(url, async function(err, client) {
+            var db = client.db('db'); 
         await db.collection('programari').updateOne({
             username: user
         }, {
@@ -135,7 +132,7 @@ async function modify_prog(req, res)
         req.session.programari=programari_client
         user='admin'
         client.close(); 
-    });   
+    });   });
 }
 async function add_prog(req, res)
 {
@@ -147,7 +144,7 @@ async function add_prog(req, res)
         {
             if(docs[0]!=undefined){
             programari_client=docs[0]['programari'];
-            programari_client=programari_client.concat({"data":req.body.data, "stare":"in asteptare", "comentariu":req.body.comentariu})
+            programari_client=programari_client.concat([{"data":req.body.data, "stare":"in asteptare", "comentariu":req.body.comentariu}])
             }
         }); 
         client.close();
@@ -163,7 +160,6 @@ async function add_prog(req, res)
         }); 
         req.session.programari=programari_client
         user=req.session.utilizator
-        console.log(programari_client)
         res.render('programari', {programari: programari_client, utilizator: user});
         client.close(); 
     });   
@@ -175,7 +171,7 @@ async function retrieve_progs(req,res)
             res.cookie('mesaj','',{expires: new Date(1999,1,1)})
             req.session.utilizator=req.body.user;
             req.session.password=req.body.pass;
-            if(req.session.utilizator=="admin"&&req.session.password=="admin")
+            if(req.session.utilizator=="admin" && req.session.password=="admin")
             {
                 res.redirect('http://localhost:6789/admin');
             }else{
@@ -187,7 +183,7 @@ async function retrieve_progs(req,res)
                 }
             });
             await db.collection('programari').find({username:req.body.user}).toArray(function(err,docs){
-                if(docs[0]!=undefined&&ok){
+                if(docs[0]!=undefined && ok){
                     req.session.programari=docs[0]['programari'];
                     res.redirect('http://localhost:6789/') 
                 }else
@@ -215,7 +211,6 @@ async function retrieve_progs(req,res)
                         if(docs!=undefined){
                             req.session.users_data=docs
                         }
-                    console.log(req.session.users_data);
                     res.render('admin',{utilizator:'admin',utilizatori:req.session.users, utilizatori_date: req.session.users_data });   
                     client.close();  
                     });

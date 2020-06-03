@@ -1,7 +1,10 @@
-<main style="padding:20px;">
+<main style="background-image: url('imagini/background.jpg'); padding:20px;">
 <% if (mesaj!=undefined) { %>
     <p style="color: tomato;"> <%= mesaj %>!</p>
 <% } %>
+<aside class="doctors" style="float: right;"> 
+  <img src="imagini/stomatologie.png" style="width: 500px"><img>
+</aside>
 <form id="logare" action="/verificare-logare" method="POST">
     <label for="username">Username:</label><br>
     <input type="text" id="username" name="user"><br>

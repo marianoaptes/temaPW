@@ -7,7 +7,7 @@
       <div id=<%="user"+i%> class="user"><%=utilizator.username%>
         <span id=<%= i %> class="flip" style="width:20%" >Info</span>
         <br />
-        <span id=<%="panel"+i%> class="panel" style="width:20%" >Varsta: <%=utilizatori_date[i+1].varsta%>, Ocupatie: <%=utilizatori_date[i+1].ocupatie%> </span>
+        <span id=<%="panel"+i%> class="panel"  >Varsta: <%=utilizatori_date[i+1].varsta%>, Ocupatie: <%=utilizatori_date[i+1].ocupatie%> </span>
       <div>
       <% if(utilizator.username!='admin') %>
       <% if(utilizator.programari!=null){ %>
@@ -47,7 +47,7 @@
                 var j=parseInt(ij[1]);
                 
                 $.post(url="/schimba-programare",{
-                    username: $("#user"+i).html(),
+                    username: $("#user"+i).html().split(" ")[0].split('\n')[0],
                     programare: $("#prog"+ij[0]+'-'+ij[1]).html().split(' - ')[0],
                     schimba: e.target.id
                     });

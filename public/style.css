@@ -148,17 +148,20 @@ footer{
     padding-top: 20px;
     font-size:12px;
 }
-.info-contact, .suna, .email
+.info-contact, .suna, .email, .address
 {
     text-align:center;
 }
 .panel, .flip {
     text-align: center;
-    background-color: #eed3cc;
+    background-color: #eed1cc;
     border: solid 1px #c3c3c3;
+    border-radius: 3px;
+    color: rgb(22, 114, 83);
   }
   
   .panel {
+    width: 15%;
     font-style: italic;
     font-size: 12px;
     padding: 2px;
